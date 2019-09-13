@@ -16,15 +16,15 @@ func TestPerimeter(t *testing.T) {
 func TestArea(t *testing.T) {
 	t.Run("rectangles", func(t *testing.T) {
 		rectangle := Rectangle{12.0, 14.0}
-		got := Area(rectangle)
+		got := rectangle.Area()
 		want := 168.00
 
 		assert.Equal(t, want, got)
 	})
 
 	t.Run("circles", func(t *testing.T) {
-		circle := Circle(10)
-		got := Area(circle)
+		circle := Circle{10.0}
+		got := circle.Area()
 		want := 314.1592653589793
 
 		assert.Equal(t, want, got)
