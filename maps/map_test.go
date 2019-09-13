@@ -6,10 +6,20 @@ import (
 )
 
 func TestSearch(t *testing.T) {
-	test_map := map[string]string{"test": "this is just a test"}
+	content := Content{"test": "this is just a test"}
 
-	got := Search(test_map, "test")
-	want := "this is just a test"
+	t.Run("lookup a word that exists", func(t *testing.T) {
+		got, err := content.Search("test")
+		want := "this is just a test"
 
-	assert.Equal(t, want, got)
+		assert.NoError(t, err)
+		assert.Equal(t, want, got)
+	})
+
+	t.Run("lookup a word that does not exist", func(t *testing.T) {
+		got, err := content.Search("unknown")
+
+		assert.Errorf(t, err, "word not found")
+		assert.Empty(t, got)
+	})
 }
