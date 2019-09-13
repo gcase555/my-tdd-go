@@ -14,3 +14,7 @@ func (c Content) Search(word string) (string, error) {
 	}
 	return "", ErrNotFound
 }
+
+func (c Content) Add(word string, definition string) {
+	c[word] = definition
+}

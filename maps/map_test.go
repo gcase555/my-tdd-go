@@ -19,7 +19,19 @@ func TestSearch(t *testing.T) {
 	t.Run("lookup a word that does not exist", func(t *testing.T) {
 		got, err := content.Search("unknown")
 
-		assert.Errorf(t, err, "word not found")
+		assert.Errorf(t, err, ErrNotFound.Error())
 		assert.Empty(t, got)
 	})
+}
+
+func TestAdd(t *testing.T) {
+	content := Content{}
+	content.Add("test", "this is just a test")
+
+	want := "this is just a test"
+	got, err := content.Search("test")
+
+	assert.NoError(t, err)
+
+	assert.Equal(t, want, got)
 }
