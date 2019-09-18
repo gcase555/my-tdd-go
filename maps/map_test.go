@@ -63,3 +63,13 @@ func TestUpdate(t *testing.T) {
 			assert.Errorf(t, err, ErrWordNotExists.Error())
 	})
 }
+
+func TestDelete(t *testing.T) {
+	word := "test"
+	content := Content{word: "test definition"}
+
+	content.Delete(word)
+
+	_, err := content.Search(word)
+	assert.Errorf(t, err, ErrNotFound.Error())
+}

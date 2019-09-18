@@ -50,3 +50,7 @@ func (c Content) Update(word, definition string) error{
 	}
 	return nil
 }
+
+func (c Content) Delete(word string){
+	delete(c, word)
+}
