@@ -21,20 +21,13 @@ func Countdown(out io.Writer, sleeper Sleeper) {
 		fmt.Fprintln(out, i)
 	}
 
+
 	sleeper.Sleep()
 	fmt.Fprintf(out, finalWord)
 }
 
 type Sleeper interface {
 	Sleep()
-}
-
-type SpySleeper struct {
-	Calls int
-}
-
-func (s *SpySleeper) Sleep() {
-	s.Calls++
 }
 type DefaultSleeper struct {}
 
