@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"github.com/stretchr/testify/assert"
 	"testing"
+	"time"
 )
 
 type SpySleeper struct {
@@ -31,19 +32,22 @@ const sleep = "sleep"
 const write = "write"
 
 func TestCountDown(t *testing.T) {
-	buffer := &bytes.Buffer{}
-	spySleeper := &SpySleeper{}
 
-	Countdown(buffer, spySleeper)
+	t.Run("prints 3 to Go!", func(t *testing.T){
+		buffer := &bytes.Buffer{}
+		spySleeper := &SpySleeper{}
 
-	got := buffer.String()
-	want := `3
+		Countdown(buffer, spySleeper)
+
+		got := buffer.String()
+		want := `3
 2
 1
 Go!`
 
-	assert.Equal(t, want, got)
-	assert.Equal(t, 4, spySleeper.Calls)
+		assert.Equal(t, want, got)
+		assert.Equal(t, 4, spySleeper.Calls)
+	})
 
 	t.Run("sleep before every print", func(t *testing.T) {
 		spySleepPrinter := &CountdownOperationsSpy{}
@@ -61,4 +65,14 @@ Go!`
 		}
 		assert.Equal(t, spySleepPrinter.Calls, want)
 	})
+}
+
+func TestConfigurableSleeper(t *testing.T) {
+	sleepTime := 5 * time.Second
+
+	spyTime := &SpyTime{}
+	sleeper := ConfigurableSleeper{sleepTime, spyTime.Sleep}
+	sleeper.Sleep()
+
+	assert.Equal(t, sleepTime, spyTime.durationSlept)
 }
